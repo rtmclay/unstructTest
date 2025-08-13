@@ -237,29 +237,6 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
   MPI_Info_create(&info);
   MPI_Info_create(&infoF);
 
-  T3PIO_results_t results;
-
-  if (cmd.useT3PIO)
-    {
-      int ierr = t3pio_set_info(P.comm, info, "./",
-                                T3PIO_GLOBAL_SIZE,         iTotalSz,
-                                T3PIO_STRIPE_COUNT,        cmd.stripes,
-                                T3PIO_STRIPE_SIZE_MB,      cmd.stripeSz,
-                                T3PIO_MAX_AGGREGATORS,     cmd.maxWriters,
-                                T3PIO_RESULTS,             &results);
-      m_nIOUnits    = results.numIO;
-      m_aggregators = results.numIO;
-      m_nStripes    = results.numStripes;
-      m_stripeSz    = results.stripeSize;
-    }
-
-  //MPI_Datatype my_vector;
-  //nDim = 1;
-  //offset = is*sizeof(double);
-  //ierr = MPI_Type_contiguous(num, MPI_DOUBLE, &my_vector);
-  //ierr = MPI_Type_commit(&my_vector);
-  //ierr = MPI_File_set_view(fh, offset, MPI_DOUBLE, my_vector, "native", info);
-
   offset    = 0;
   nDim      = 2;
   sz[0]     = cmd.localSz/cmd.xwidth;
