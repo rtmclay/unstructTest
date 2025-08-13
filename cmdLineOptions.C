@@ -62,13 +62,9 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
   xferStyle        = "Collective";
   wrtStyle         = "Romio";
 
-#ifdef USE_HDF5
   h5slab           = true;
   romio            = false;
   wrtStyle         = "h5slab";
-#endif
-
-
 
   while ( (opt = getopt(argc, argv, "s:hNCSRLO:w:l:g:n:x:z:?v")) != -1)
     {
