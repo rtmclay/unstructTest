@@ -18,13 +18,8 @@ void printUsage(const char* execName)
   printVersion(execName);
   
   std::string romioDft, h5slabDft;
-  #ifdef USE_HDF5
-    h5slabDft = " (default)";
-    romioDft  = "";
-  #else
-    h5slabDft = "";
-    romioDft  = " (default)";
-  #endif
+  h5slabDft = " (default)";
+  romioDft  = "";
 
   if (P.myProc == 0)
     std::cerr << "\nUsage:\n"
