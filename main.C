@@ -64,7 +64,7 @@ void outputResults(CmdLineOptions& cmd, ParallelIO& pio)
              " totalTime (sec):  %12.3f\n"
              " rate (MB/s):      %12.3f\n"
              " wrtStyle:         %12s\n"
-             " xferStyle:        %12s\n"
+             " xferStyle:        %12s\n",
              P.nProcs, cmd.localSz, pio.numvar(), fileSz, pio.time(), pio.totalTime(),
              pio.rate(), cmd.wrtStyle.c_str(), cmd.xferStyle.c_str());
     }
