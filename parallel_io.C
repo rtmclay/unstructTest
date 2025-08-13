@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <string.h>
+#include <assert.h>
 #include "measure.h"
 
 struct Var_t
@@ -44,7 +45,6 @@ void ParallelIO::h5writer(CmdLineOptions& cmd)
   hid_t   plist_id;      //Property List id
   hsize_t sz[1], gsz[1], starts[1], count[1], h5stride[1], rem;
   hsize_t is, num;
-  int     ierr;
   H5FD_mpio_xfer_t  xfer_mode;   // HDF5 transfer mode (indep or collective)
   const char * fn = "UNSTRUCT.h5";
 
@@ -247,12 +247,12 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
   starts[1] = 0;
     
   ierr = MPI_Type_create_subarray(nDim, sz, sz, starts, MPI_ORDER_C, MPI_DOUBLE,
-                                  &coreData);
-  ierr = MPI_Type_commit(&coreData);
+                                  &coreData);  assert(ierr == MPI_SUCCESS);
+  ierr = MPI_Type_commit(&coreData);           assert(ierr == MPI_SUCCESS);
   starts[0] = sz[0]*P.myProc;
   ierr = MPI_Type_create_subarray(nDim, gsz, sz, starts, MPI_ORDER_C, MPI_DOUBLE,
-                                  &gblData);
-  ierr = MPI_Type_commit(&gblData);
+                                  &gblData);   assert(ierr == MPI_SUCCESS);
+  ierr = MPI_Type_commit(&gblData);            assert(ierr == MPI_SUCCESS);
 
 
   t0 = walltime();
@@ -262,10 +262,10 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
     MPI_Abort(P.comm, -1);
 
 
-  ierr = MPI_File_set_view(fh, offset, MPI_DOUBLE, gblData, "native", info);
+  ierr = MPI_File_set_view(fh, offset, MPI_DOUBLE, gblData, "native", info); assert(ierr == MPI_SUCCESS);
 
-  ierr = MPI_File_write_all(fh, &data[0], 1, coreData, &status);
-  ierr = MPI_File_close(&fh);
+  ierr = MPI_File_write_all(fh, &data[0], 1, coreData, &status);             assert(ierr == MPI_SUCCESS);
+  ierr = MPI_File_close(&fh);                                                assert(ierr == MPI_SUCCESS);
 
   m_totalTime = walltime() - t0;
   m_rate      = m_totalSz/(m_totalTime * 1024.0 * 1024.0);
