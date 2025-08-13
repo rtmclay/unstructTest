@@ -49,7 +49,7 @@ void outputResults(CmdLineOptions& cmd, ParallelIO& pio)
       printf("%%%% { nprocs = %d, lSz = %ld, wrtStyle = \"%s\","
              " xferStyle = \"%s\", fileSzGB = %15.7g, time = %15.7g, totalTime = %15.7g,"
              " rate = %15.7g },\n",
-             t3pioV, P.nProcs, cmd.localSz, cmd.wrtStyle.c_str(), cmd.xferStyle.c_str(), 
+             P.nProcs, cmd.localSz, cmd.wrtStyle.c_str(), cmd.xferStyle.c_str(), 
              fileSz, pio.time(), pio.totalTime(), pio.rate());
     }
   if (cmd.tableStyleOutput)
