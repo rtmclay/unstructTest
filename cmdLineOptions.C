@@ -6,7 +6,6 @@
 #include <ctype.h>
 #include "cmdLineOptions.h"
 #include "h5test.h"
-#include "t3pio.h"
 
 void printVersion(const char* execName)
 {
@@ -37,14 +36,10 @@ void printUsage(const char* execName)
               << " -C            : use h5 chunk\n"
               << " -S            : use h5 slab"<< h5slabDft << "\n"
               << " -I            : use independent instead of collective(collective is default)\n"
-              << " -N            : no T3PIO\n"
               << " -O type       : output type (l: lua, t: table, b: both (default: table))\n"
               << " -n nvar       : nvar  (default=4)\n"
               << " -l num        : local size is num (default=10)\n"
               << " -g num        : global size in GBytes\n"
-              << " -s num        : maximum number of stripes\n"
-              << " -z num        : maximum stripe size in MB\n"
-              << " -w num        : Total number of writers\n"
               << " -x num        : xwidth\n"
               << std::endl;
 }
@@ -58,8 +53,6 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
   bool version, help;
   char choice;
 
-  useT3PIO         = true;
-  maxWriters       = T3PIO_IGNORE_ARGUMENT;
   version          = false;
   help             = false;
   localSz          = -1;
@@ -67,8 +60,6 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
   h5chunk          = false;
   h5slab           = false;
   romio            = true;
-  stripes          = T3PIO_IGNORE_ARGUMENT;
-  stripeSz         = T3PIO_IGNORE_ARGUMENT;
   luaStyleOutput   = false;
   tableStyleOutput = true;
   collective       = true;
@@ -117,17 +108,8 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
           collective = false;
           xferStyle = "Independent";
           break;
-        case 'N':
-          useT3PIO = false;
-          break;
         case 'x':
           xwidth  = strtol(optarg, (char **) NULL, 10);
-          break;
-        case 's':
-          stripes = strtol(optarg, (char **) NULL, 10);
-          break;
-        case 'z':
-          stripeSz = strtol(optarg, (char **) NULL, 10);
           break;
         case 'g':
           globalSz = strtoll(optarg, (char **) NULL, 10);
@@ -141,9 +123,6 @@ CmdLineOptions::CmdLineOptions(int argc, char* argv[])
         case 'O':
           choice         = tolower(optarg[0]);
           luaStyleOutput = ( choice == 'b' || choice == 'l');
-          break;
-        case 'w':
-          maxWriters    = strtol(optarg, (char **) NULL, 10);
           break;
         }
     }

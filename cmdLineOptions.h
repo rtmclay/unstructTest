@@ -18,12 +18,8 @@ class CmdLineOptions
   long long   globalSz;
   long long   localSz;
   int         nvar;
-  int         stripes;
-  int         stripeSz;  // in MB
-  int         maxWriters;
   int         xwidth;
   bool        collective;
-  bool        useT3PIO;
   bool        luaStyleOutput;
   bool        tableStyleOutput;
   bool        h5chunk;

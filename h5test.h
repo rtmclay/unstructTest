@@ -6,7 +6,7 @@
 extern Comm P;
 
 
-#define H5TEST_VERSION "0.1"
+#define H5TEST_VERSION "0.2"
 
 
 #endif // H5TEST_H
