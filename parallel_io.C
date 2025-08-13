@@ -201,7 +201,7 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
   MPI_Offset   is, rem, offset;
   MPI_Datatype coreData, gblData;
   MPI_Status   status;
-  int          iTotalSz, ierr, nDim;
+  int          ierr, nDim;
   int          sz[2], gsz[2], starts[2];
   const char*  fn = "UNSTRUCT.mpiio";
 
@@ -214,7 +214,6 @@ void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
 
   m_numvar      = 1;
   m_totalSz     = cmd.globalSz*m_numvar*sizeof(double);
-  iTotalSz      = m_totalSz/(1024*1024);
   int    num    = cmd.localSz;
   double *data  = new double[num];
   double xk     = is;
