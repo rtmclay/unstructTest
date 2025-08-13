@@ -6,7 +6,6 @@
 #include <iostream>
 #include <string.h>
 #include "measure.h"
-#include "t3pio.h"
 
 struct Var_t
 {
@@ -35,18 +34,6 @@ ParallelIO::ParallelIO()
 {}
 
 
-#ifndef USE_HDF5
-void ParallelIO::h5writer(CmdLineOptions& cmd)
-{
-  if (P.myProc == 0) 
-    printf("This program requires HDF5 which is not available => quitting\n");
-}
-
-void ParallelIO::add_attribute(hid_t id, const char* descript, const char* value)
-{
-}
-
-#else
 void ParallelIO::h5writer(CmdLineOptions& cmd)
 {
 
@@ -227,7 +214,6 @@ void ParallelIO::add_attribute(hid_t id, const char* descript, const char* value
   H5Aclose(attr_id);
   H5Sclose(aspace_id);
 }
-#endif
 
 void ParallelIO::MPIIOwriter(CmdLineOptions& cmd)
 {
